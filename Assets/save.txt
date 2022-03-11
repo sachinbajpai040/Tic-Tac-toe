@@ -1,0 +1,1 @@
+{"NumberOfTurns":-1,"matrix":[1,0,-1,-1,0,1,-1,-1,-1],"NameOfPlayers":["Player 1","Player 2"],"CanResume":true}
