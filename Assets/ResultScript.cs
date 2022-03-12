@@ -5,6 +5,7 @@ public class ResultScript : MonoBehaviour
 {
     // Start is called before the first frame update
     public Result ResultData;
+    
     public Text player1;
     public Text player2;
     public Text playerWon;
@@ -13,7 +14,7 @@ public class ResultScript : MonoBehaviour
     {
         string savestring = File.ReadAllText(Application.dataPath + "/result.json");
         ResultData = JsonUtility.FromJson<Result>(savestring);
-        Debug.Log("Result Called" + ResultData.NoOfMatches);
+       // Debug.Log("Result Called" + ResultData.NoOfMatches);
         int count = 0;
         for (int i = ResultData.NoOfMatches-1; i >=0; i--)
         {

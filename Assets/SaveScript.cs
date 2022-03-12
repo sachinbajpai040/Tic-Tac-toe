@@ -11,7 +11,7 @@ public class SaveScript : MonoBehaviour
     }
     void TaskOnClick()
     {
-        Debug.Log("You have clicked the Save button!");
+        //Debug.Log("You have clicked the Save button!");
         gameBoard.GetComponent<GameScript>().Save();
     }
 }

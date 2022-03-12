@@ -2,8 +2,10 @@ using UnityEngine;
 public class TileScript : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
-    public GameObject gameboard1;
     public Sprite[] tileImages;
+    
+    public GameObject gameboard1;
+    
     public int tileNumber;
     public bool isPlayed;
     void Start()
@@ -15,6 +17,7 @@ public class TileScript : MonoBehaviour
     {
         bool isGameOver = gameboard1.GetComponent<GameScript>().isGameOver;
         bool isStarted = gameboard1.GetComponent<GameScript>().isStarted;
+        
         if (!isPlayed && !isGameOver && isStarted)
         {
             int index = gameboard1.GetComponent<GameScript>().Playerturn();

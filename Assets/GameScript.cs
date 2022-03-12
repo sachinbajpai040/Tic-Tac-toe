@@ -1,16 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-
 public class GameScript : MonoBehaviour
 {
     public class GameData
     {
         public int NumberOfTurns;
-        public int[] matrix = new int[9];
-        public string[] NameOfPlayers = new string[2];
+        public readonly int[] Matrix = new int[9];
+        public readonly string[] NameOfPlayers = new string[2];
         public bool CanResume = true;
-        public int[] stack = new int[9];
+        public readonly int[] Stack = new int[9];
         public int SizeOfStack;
     }
     public class Result
@@ -20,7 +19,6 @@ public class GameScript : MonoBehaviour
         public string[] playerWon = new string[15];
         public int NoOfMatches;
     }
-    
     int[,] GameMatrix = new int[3, 3];
     int _totalTurn;
     public bool isStarted;
@@ -29,7 +27,6 @@ public class GameScript : MonoBehaviour
     
     public GameData CurrentGameData;
     public Result ShowResult;
-    
     
     public GameObject canvas;
     public GameObject[] icons;
@@ -61,23 +58,27 @@ public class GameScript : MonoBehaviour
         CurrentGameData = new GameData();
         CurrentGameData.SizeOfStack = 0;
         CurrentGameData.CanResume = true;
-        _spriteRenderer.sprite = null;
-        restartButton.gameObject.SetActive(false);
-        undoButton.gameObject.SetActive(false);
-        playerName[0] = "Player 1";
-        playerName[1] = "Player 2";
         CurrentGameData.NameOfPlayers[0] = "Player 1";
         CurrentGameData.NameOfPlayers[1] = "Player 2";
+        CurrentGameData.NumberOfTurns = -1;
+        _spriteRenderer.sprite = null;
+        
+        restartButton.gameObject.SetActive(false);
+        undoButton.gameObject.SetActive(false);
+        
+        playerName[0] = "Player 1";
+        playerName[1] = "Player 2";
+        
         isStarted = false;
         isGameOver = false;
         _totalTurn = -1;
-        CurrentGameData.NumberOfTurns = -1;
+       
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
             {
                 GameMatrix[i, j] = -1;
-                CurrentGameData.matrix[i * 3 + j] = -1;
+                CurrentGameData.Matrix[i * 3 + j] = -1;
             }
         }
     }
@@ -87,17 +88,21 @@ public class GameScript : MonoBehaviour
             return;
         
         isGameOver = false;
-        int index = CurrentGameData.stack[--CurrentGameData.SizeOfStack];
-        Debug.Log(index);
+        
+        int index = CurrentGameData.Stack[--CurrentGameData.SizeOfStack];
+        
         icons[index].GetComponent<TileScript>().spriteRenderer.sprite = null;
         icons[index].GetComponent<TileScript>().isPlayed = false;
         
         gameWon.text = playerName[_totalTurn % 2] + "'s turn";
         _totalTurn--;
+        
         int x = index / 3;
         int y = index % 3;
+        
         GameMatrix[x, y] = -1;
-        CurrentGameData.matrix[x * 3 + y] = -1;
+        CurrentGameData.Matrix[x * 3 + y] = -1;
+        
         Save();
     }
     public void Save()
@@ -105,6 +110,7 @@ public class GameScript : MonoBehaviour
         CurrentGameData.NumberOfTurns = _totalTurn;
         CurrentGameData.NameOfPlayers[0] = playerName[0];
         CurrentGameData.NameOfPlayers[1] = playerName[1];
+        
         string json = JsonUtility.ToJson(CurrentGameData);
         File.WriteAllText(Application.dataPath + "/Save.json", json);
     }
@@ -119,7 +125,7 @@ public class GameScript : MonoBehaviour
         {
             CurrentGameData = new GameData();
             for (int i = 0; i < 9; i++)
-                CurrentGameData.matrix[i] = -1;
+                CurrentGameData.Matrix[i] = -1;
             DoNotLoad();
             return;
         }
@@ -132,9 +138,7 @@ public class GameScript : MonoBehaviour
         isStarted = true;
         Showboard();
         playButton.gameObject.SetActive(false);
-        playButton.GetComponent<StartScript>().player1Name.gameObject.SetActive(false);
-        playButton.GetComponent<StartScript>().player2Name.gameObject.SetActive(false);
-        playButton.GetComponent<StartScript>().resultButton.gameObject.SetActive(false);
+        playButton.GetComponent<StartScript>().mainMenu.gameObject.SetActive(false);
         undoButton.gameObject.SetActive(true);
         
         
@@ -142,7 +146,7 @@ public class GameScript : MonoBehaviour
         {
             for (int j = 0; j < 3; j++)
             {
-                int put = CurrentGameData.matrix[i * 3 + j];
+                int put = CurrentGameData.Matrix[i * 3 + j];
                 GameMatrix[i, j] = put;
                 if (put != -1)
                 {
@@ -176,156 +180,43 @@ public class GameScript : MonoBehaviour
         Debug.Log("tt " +_totalTurn);
         return t % 2;
     }
-    private bool Vertical(int x, int y,int player)
+    private bool Vertical(int y,int player)
     {
-        int count = 0;
-        for (int i = 0; i <= y; i++)
-        {
-            if (GameMatrix[x,i] == player)
-            {
-                count++;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        for (int i = y+1; i <3; i++)
-        {
-            if (GameMatrix[x,i] == player)
-            {
-                count++;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        if (count == 3)
-            return true;
-		return false;
+        if (GameMatrix[0, y] == GameMatrix[1, y] &&
+            GameMatrix[1, y] == GameMatrix[2, y] &&
+            GameMatrix[0, y] == player)
+            return (true);
+        return (false);
     }
-    private bool Horizontal(int x, int y, int player)
+    private bool Horizontal(int x, int player)
     {
-        int count = 0;
-        for (int i = 0; i <= x; i++)
-        {
-            if (GameMatrix[i,y] == player)
-            {
-                count++;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        for (int i = x+1; i <3; i++)
-        {
-            if (GameMatrix[i,y] == player)
-            {
-                count++;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        if (count == 3)
-            return true;
-		return false;
-    }
 
-    private bool Diagonal(int x, int y, int player)
+        if (GameMatrix[x, 0] == GameMatrix[x, 1] &&
+            GameMatrix[x, 1] == GameMatrix[x, 2] &&
+            GameMatrix[x, 0] == player)
+            return (true);
+        return (false);
+    }
+    private bool Diagonal(int player)
     {
-        if ((x == 0 && y == 1) || (x == 1 && y == 0) || (x == 1 && y == 2) || (x == 2 && y == 1))
-        {
-            return false;
-        }
-        int i = x, j = y;
-        int count = 0;
-        while (i >= 0 && j >= 0)
-        {
-            
-            if (GameMatrix[i,j] == player)
-            {
-                count++;
-                i--;
-                j--;
-            }
-            else
-            {
-                count = 0;
-                break;
-            }
-        }
-        i = x+1;
-		j = y+1;
-        while (i < 3 && j < 3)
-        {
-            Debug.Log("in first block "+j);
-            if (GameMatrix[i,j] == player)
-            {
-                count++;
-                i++;
-                j++;
-            }
-            else
-            {
-                count = 0;
-                break;
-            }
-        }
-        if (count == 3)
-            return true;
-        else
-        {
-            count = 0;
-        }
-        i = x;
-		j = y;
-        while (i >= 0 && j < 3)
-        {
-            if (GameMatrix[i,j] == player)
-            {
-                count++;
-                i--;
-                j++;
-            }
-            else
-            {
-                count = 0;
-                break;
-            }
-        }
-        i = x+1;
-		j = y-1;
-        while (i > 3 && j >=0)
-        {
-            if (GameMatrix[i,j] == player)
-            {
-                count++;
-                i++;
-                j--;
-            }
-            else
-            {
-                count = 0;
-                break;
-            }
-        }
-        if (count == 3)
-            return true;
-        else
-        {
-            return false;
-        }
+        if (GameMatrix[0,0] == GameMatrix[1,1] &&
+            GameMatrix[1,1] == GameMatrix[2,2] && 
+            GameMatrix[0,0] == player)
+            return(true);
+          
+        if (GameMatrix[0,2] == GameMatrix[1,1] &&
+            GameMatrix[1,1] == GameMatrix[2,0] &&
+            GameMatrix[0,2] == player)
+            return(true);
+  
+        return(false);
     }
     private bool IsWon(int index, int player)
     {
         int x = index / 3;
         int y = index % 3;
-        return Vertical(x, y, player) || Horizontal(x, y, player) || Diagonal(x, y, player);
+        return Vertical(y, player) || Horizontal(x, player) || Diagonal(player);
     }
     public void Played(int tile, int player)
     {
@@ -334,11 +225,10 @@ public class GameScript : MonoBehaviour
         int y = index % 3;
 
         GameMatrix[x, y] = player;
-        CurrentGameData.matrix[x * 3 + y] = player;
+        CurrentGameData.Matrix[x * 3 + y] = player;
         undoButton.gameObject.SetActive(true);
         gameWon.text = playerName[(player + 1) % 2] + "'s turn";
-
-        CurrentGameData.stack[CurrentGameData.SizeOfStack] = index;
+        CurrentGameData.Stack[CurrentGameData.SizeOfStack] = index;
         Debug.Log("index "+index);
         CurrentGameData.SizeOfStack++;
         Save();
@@ -352,8 +242,6 @@ public class GameScript : MonoBehaviour
             
             undoButton.gameObject.SetActive(false);
             restartButton.gameObject.SetActive(true);
-            
-            
             
             SaveResult(playerName[player]);
             
@@ -374,12 +262,10 @@ public class GameScript : MonoBehaviour
         string json;
         string savestring = File.ReadAllText(Application.dataPath + "/result.json");
         ShowResult = JsonUtility.FromJson<Result>(savestring);
-        
         if (ShowResult.NoOfMatches == 15)
         {
             for (int i = 1; i < 15; i++)
             {
-                // ShowResult.result[i - 1] = ShowResult.result[i];
                 ShowResult.player1name[i - 1] = ShowResult.player1name[i];
                 ShowResult.player2name[i - 1] = ShowResult.player2name[i];
                 ShowResult.playerWon[i - 1] = ShowResult.playerWon[i];
@@ -394,5 +280,4 @@ public class GameScript : MonoBehaviour
         json = JsonUtility.ToJson(ShowResult);
         File.WriteAllText(Application.dataPath + "/result.json", json);
     }
-    
 }
