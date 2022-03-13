@@ -670,8 +670,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -223.96, y: -22.740005}
-  m_SizeDelta: {x: 292.5502, y: 316.52}
+  m_AnchoredPosition: {x: -258.466, y: -19.1495}
+  m_SizeDelta: {x: 223.5383, y: 309.339}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &275109043
 MonoBehaviour:
@@ -2602,50 +2602,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1336526256}
   m_CullTransparentMesh: 1
---- !u!1 &1368889180
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1368889182}
-  - component: {fileID: 1368889181}
-  m_Layer: 0
-  m_Name: showmenu
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1368889181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368889180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3abe403bffd84ad487f6037a46cf81b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainMenu: {fileID: 128035649}
---- !u!4 &1368889182
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368889180}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.290216, y: -0.3577487, z: -0.42922303}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1404080532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7087434827461700790, guid: ca6f2cdfc722e43a3a7a855e96cfa14f, type: 3}
@@ -2955,6 +2911,7 @@ GameObject:
   - component: {fileID: 1463998811}
   - component: {fileID: 1463998810}
   - component: {fileID: 1463998809}
+  - component: {fileID: 1463998812}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3044,6 +3001,19 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1463998812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463998807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3abe403bffd84ad487f6037a46cf81b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenu: {fileID: 128035649}
 --- !u!1 &1487302107
 GameObject:
   m_ObjectHideFlags: 0
