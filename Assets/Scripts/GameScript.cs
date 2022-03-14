@@ -1,6 +1,7 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
+
 public class GameScript : MonoBehaviour
 {
     public class GameData

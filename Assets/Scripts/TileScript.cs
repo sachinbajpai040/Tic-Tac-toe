@@ -1,4 +1,5 @@
 using UnityEngine;
+
 public class TileScript : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;

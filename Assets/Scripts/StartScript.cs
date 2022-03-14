@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+
 public class StartScript : MonoBehaviour
 {
     public Button startButton;
@@ -16,7 +17,7 @@ public class StartScript : MonoBehaviour
     }
     void TaskOnClick()
     {
-       // gameBoard.GetComponent<GameScript>().isStarted = true;
+        // gameBoard.GetComponent<GameScript>().isStarted = true;
         
         if (player1Name.text == "")
             player1Name.text = "Player 1";
